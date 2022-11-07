@@ -1,28 +1,20 @@
 #!/bin/bash
-
 version="v4.2.3(20221107)"
 version_log="填大饼"
-
-
 RED="\033[31m"
 GREEN="\033[32m"
 YELLOW="\033[33m"
 PLAIN="\033[0m"
-
-
 REGEX=("debian" "ubuntu" "centos|red hat|kernel|oracle linux|alma|rocky" "'amazon linux'" "fedora")
 RELEASE=("Debian" "Ubuntu" "CentOS" "CentOS" "Fedora")
 PACKAGE_UPDATE=("apt-get update" "apt-get update" "yum -y update" "yum -y update" "yum -y update")
 PACKAGE_INSTALL=("apt -y install" "apt -y install" "yum -y install" "yum -y install" "yum -y install")
 PACKAGE_REMOVE=("apt -y remove" "apt -y remove" "yum -y remove" "yum -y remove" "yum -y remove")
 PACKAGE_UNINSTALL=("apt -y autoremove" "apt -y autoremove" "yum -y autoremove" "yum -y autoremove" "yum -y autoremove")
-
 CMD=("$(grep -i pretty_name /etc/os-release 2>/dev/null | cut -d \" -f2)" "$(hostnamectl 2>/dev/null | grep -i system | cut -d : -f2)" "$(lsb_release -sd 2>/dev/null)" "$(grep -i description /etc/lsb-release 2>/dev/null | cut -d \" -f2)" "$(grep . /etc/redhat-release 2>/dev/null)" "$(grep . /etc/issue 2>/dev/null | cut -d \\ -f1 | sed '/^[ ]*$/d')") 
-
 for i in "${CMD[@]}"; do
     SYS="$i" && [[ -n $SYS ]] && break
 done
-
 for ((int = 0; int < ${#REGEX[@]}; int++)); do
     if [[ $(echo "$SYS" | tr '[:upper:]' '[:lower:]') =~ ${REGEX[int]} ]]; then
         SYSTEM="${RELEASE[int]}" && [[ -n $SYSTEM ]] && break
@@ -40,7 +32,6 @@ about(){
     echo -e "# ${GREEN}Raw加速${PLAIN}: https://ghraw.imgblz.cn                #"
     echo "#####################################################"
 }
-
 dd_vps(){
     clear
     echo -e "脚本来自 https://github.com/bohanyang/debi"
@@ -69,7 +60,6 @@ dd_vps(){
         echo -e "请截图反馈"
     fi
 }
-
 mt(){
     if [[ -z $(grep "alias mt='bash /root/MisakaToolbox.sh'" /etc/profile) ]]; then
         echo -e "正在配置快捷启动方式"
@@ -84,7 +74,6 @@ mt(){
         fi
     fi
 }
-
 aboutx(){
     clear
     echo -e "                 About"
@@ -104,7 +93,6 @@ aboutx(){
         *) menux ;;
     esac
 }
-
 check_status(){
     yellow "等下！你这vps就是逊了..."
     if [[ -z $(type -P curl) ]]; then
@@ -198,7 +186,6 @@ check_status(){
         w5="${GREEN}WARP+ / Teams${PLAIN}"
     fi
 }
-
 open_ports(){
     systemctl stop firewalld.service 2>/dev/null
     systemctl disable firewalld.service 2>/dev/null
@@ -215,7 +202,6 @@ open_ports(){
     green "VPS的防火墙端口已放行！"
 }
 
-
 bbr_script(){
     virt=$(systemd-detect-virt)
     TUN=$(cat /dev/net/tun 2>&1 | tr '[:upper:]' '[:lower:]')
@@ -231,7 +217,6 @@ bbr_script(){
         red "抱歉，你的VPS虚拟化架构暂时不支持bbr加速脚本"
     fi
 }
-
 v6_dns64(){
     wg-quick down wgcf 2>/dev/null
     v66=`curl -s6m8 https://ip.gs -k`
@@ -244,7 +229,6 @@ v6_dns64(){
     fi
     wg-quick up wgcf 2>/dev/null
 }
-
 warp_script(){
     green "请选择你接下来使用的脚本"
     echo "1. fscarmen"
@@ -265,8 +249,6 @@ warp_script(){
         *) warp_script ;;
     esac
 }
-
-
 setChinese(){
     chattr -i /etc/locale.gen
     cat > '/etc/locale.gen' << EOF
@@ -287,7 +269,6 @@ EOF
     export LANG="zh_CN.UTF-8"
     export LC_ALL="zh_CN.UTF-8"
 }
-
 aapanel(){
     if [[ $SYSTEM = "CentOS" ]]; then
         yum install -y wget && wget -O install.sh http://www.aapanel.com/script/install_6.0_en.sh && bash install.sh forum
@@ -297,7 +278,6 @@ aapanel(){
         wget -O install.sh http://www.aapanel.com/script/install-ubuntu_6.0_en.sh && sudo bash install.sh forum
     fi
 }
-
 bt(){
     if [[ $SYSTEM = "CentOS" ]]; then
         curl -sSO http://io.bt.sy/install/install_panel.sh && bash install_panel.sh forum
@@ -307,7 +287,6 @@ bt(){
         wget -O install.sh http://io.bt.sy/install/install-ubuntu_6.0.sh && sudo bash install.sh forum
     fi
 }
-
 tools(){
     if [[ $SYSTEM = "CentOS" ]]; then
         green "不行！用debian去"
