@@ -1,5 +1,6 @@
 #!/bin/bash
 version="v4.2.3(20221107)"
+
 version_log="填大饼"
 RED="\033[31m"
 GREEN="\033[32m"
@@ -16,7 +17,7 @@ for i in "${CMD[@]}"; do
     SYS="$i" && [[ -n $SYS ]] && break
 done
 for ((int = 0; int < ${#REGEX[@]}; int++)); do
-    if [[ $(echo "$SYS" | tr '[:upper:]' '[:lower:]') =~ ${REGEX[int]} ]]; then
+if [[ $(echo "$SYS" | tr '[:upper:]' '[:lower:]') =~ ${REGEX[int]} ]]; then
         SYSTEM="${RELEASE[int]}" && [[ -n $SYSTEM ]] && break
     fi
 done
